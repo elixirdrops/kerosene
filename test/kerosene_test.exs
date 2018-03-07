@@ -15,11 +15,10 @@ defmodule KeroseneTest do
     end
   end
 
-  test "group_by" do
+  test "group_by in query" do
     create_products()
-    Product
-    |> group_by([p], p.id)
-    |> Repo.paginate(%{})
+    {_items, kerosene} = Product |> group_by([p], p.id) |> Repo.paginate(%{})
+    assert kerosene.total_count == 15
   end
 
   test "per_page option" do
