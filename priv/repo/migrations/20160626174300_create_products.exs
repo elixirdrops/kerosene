@@ -6,7 +6,7 @@ defmodule Kerosene.Repo.Migrations.CreateProduct do
       add :name, :string
       add :price, :decimal
 
-      timestamps
+      timestamps()
     end
   end
 end
