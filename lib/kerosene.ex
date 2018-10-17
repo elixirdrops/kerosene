@@ -94,7 +94,7 @@ defmodule Kerosene do
 
   def get_primary_key(query) do
     new_query = case is_map(query) do
-      true -> query.from |> elem(1)
+      true -> query.from.source |> elem(1)
       _ -> query
     end
 
