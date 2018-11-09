@@ -30,7 +30,7 @@ defmodule Kerosene.HTML do
   `:bootstrap`, but you can add your own using the `Kerosene.HTML.do_paginate/3` function
   if desired. Kerosene provides few themes out of the box:
 
-      #{inspect @themes}
+      #{inspect(@themes)}
 
   Example:
 
@@ -55,19 +55,19 @@ defmodule Kerosene.HTML do
   def paginate(conn, paginator, opts \\ []) do
     opts = build_options(opts)
 
-    conn 
-    |> Kerosene.Paginator.paginate(paginator, opts) 
+    conn
+    |> Kerosene.Paginator.paginate(paginator, opts)
     |> render_page_list(opts)
   end
 
   defp render_page_list(page_list, opts) do
     case opts[:theme] do
-      :bootstrap   -> HTML.Bootstrap.generate_links(page_list, opts[:class])
-      :bootstrap4  -> HTML.Bootstrap4.generate_links(page_list, opts[:class])
-      :foundation  -> HTML.Foundation.generate_links(page_list, opts[:class])
-      :semantic    -> HTML.Semantic.generate_links(page_list, opts[:class])
+      :bootstrap -> HTML.Bootstrap.generate_links(page_list, opts[:class])
+      :bootstrap4 -> HTML.Bootstrap4.generate_links(page_list, opts[:class])
+      :foundation -> HTML.Foundation.generate_links(page_list, opts[:class])
+      :semantic -> HTML.Semantic.generate_links(page_list, opts[:class])
       :materialize -> HTML.Materialize.generate_links(page_list, opts[:class])
-      _            -> HTML.Simple.generate_links(page_list, opts[:class])
+      _ -> HTML.Simple.generate_links(page_list, opts[:class])
     end
   end
 end

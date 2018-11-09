@@ -3,8 +3,8 @@ defmodule Kerosene.Repo.Migrations.CreateProduct do
 
   def change do
     create table(:products) do
-      add :name, :string
-      add :price, :decimal
+      add(:name, :string)
+      add(:price, :decimal)
 
       timestamps()
     end

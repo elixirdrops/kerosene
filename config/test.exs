@@ -11,5 +11,4 @@ config :kerosene, Kerosene.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # shut up only log errors
-config :logger, :console,
-  level: :error
+config :logger, :console, level: :error
