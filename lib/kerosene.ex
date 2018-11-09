@@ -85,7 +85,7 @@ defmodule Kerosene do
   end
 
   defp total_count(query = %{group_bys: [_ | _]}), do: total_row_count(query)
-  defp total_count(query = %{from: {_, nil}}), do: total_row_count(query)
+  defp total_count(query = %{from: %{source: {_, nil}}}), do: total_row_count(query)
 
   defp total_count(query) do
     primary_key = get_primary_key(query)
@@ -104,7 +104,7 @@ defmodule Kerosene do
   def get_primary_key(query) do
     new_query =
       case is_map(query) do
-        true -> query.from |> elem(1)
+        true -> query.from |> Map.fetch!(:source) |> elem(1)
         _ -> query
       end
 
