@@ -51,6 +51,8 @@ defmodule Kerosene do
     |> repo.all
   end
 
+  defp get_offset(_total_pages, _page, nil), do: 0
+
   defp get_offset(total_pages, page, per_page) do
     page = case page > total_pages do
       true -> total_pages
@@ -117,10 +119,26 @@ defmodule Kerosene do
 
   defp build_options(opts, params) do
     page = Map.get(params, "page", @page) |> to_integer()
-    per_page = default_per_page(opts) |> to_integer()
+    per_page = get_per_page(params, opts)
     max_page = Keyword.get(opts, :max_page, default_max_page())
-    Keyword.merge(opts, [page: page, per_page: per_page, params: params, max_page: max_page])
+    Keyword.merge(opts, page: page, per_page: per_page, params: params, max_page: max_page)
   end
+
+  defp get_per_page(%{"per_page" => "all"}, _opts), do: nil
+
+  defp get_per_page(%{"per_page" => per_page}, opts)
+       when is_integer(per_page) or is_binary(per_page) do
+    per_page =
+      if to_integer(per_page) > 0 do
+        per_page
+      else
+        default_per_page(opts)
+      end
+
+    to_integer(per_page)
+  end
+
+  defp get_per_page(_params, opts), do: opts |> default_per_page() |> to_integer()
 
   defp default_per_page(opts) do
     case Keyword.get(opts, :per_page) do

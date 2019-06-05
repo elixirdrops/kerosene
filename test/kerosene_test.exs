@@ -45,6 +45,19 @@ defmodule KeroseneTest do
     assert kerosene.per_page == 5
   end
 
+  test "per_page param" do
+    create_products()
+    {_items, kerosene} = Product |> Repo.paginate(%{"per_page" => 5})
+    assert kerosene.per_page == 5
+  end
+
+  test "all per_page param" do
+    create_products()
+    {items, kerosene} = Product |> Repo.paginate(%{"per_page" => "all"})
+    assert kerosene.per_page == nil
+    assert length(items) == 15
+  end
+
   test "default per_page option" do
     create_products()
     {items, kerosene} = Product |> Repo.paginate(%{}, per_page: nil)
