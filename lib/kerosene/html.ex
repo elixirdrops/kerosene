@@ -20,7 +20,11 @@ defmodule Kerosene.HTML do
   Where `@page` is a `%Kerosene{}` struct returned from `Repo.paginate/2`.
 
   `paginate` helper takes keyword list of `options` and `params`.
-    <%= paginate @conn, @page, window: 5, next_label: ">>", previous_label: "<<", first: true, last: true, first_label: "First", last_label: "Last" %>
+
+      <%= paginate @conn, @page, window: 5,
+        next_label: ">>", previous_label: "<<", first: true, last: true,
+        first_label: "First", last_label: "Last" %>
+
   """
 
   @doc """
@@ -32,19 +36,20 @@ defmodule Kerosene.HTML do
 
       #{inspect @themes}
 
-  Example:
+  ## Examples
 
       iex> Kerosene.HTML.paginate(@conn, @kerosene)
 
   Path can be overriden by adding setting `:path` in the `opts`.
   For example:
 
-      Kerosene.HTML.paginate(@conn, @kerosene, path: product_path(@conn, :index, foo: "bar"))
+      iex> Kerosene.HTML.paginate(@conn, @kerosene, path: product_path(@conn, :index, foo: "bar"))
 
   Additional panigation class can be added by adding setting `:class` in the `opts`.
   For example:
 
-      Kerosene.HTML.paginate(@conn, @kerosene, theme: :boostrap4, class: "paginate-sm")
+      iex> Kerosene.HTML.paginate(@conn, @kerosene, theme: :boostrap4, class: "paginate-sm")
+
   """
   defmacro __using__(_opts \\ []) do
     quote do
@@ -55,8 +60,8 @@ defmodule Kerosene.HTML do
   def paginate(conn, paginator, opts \\ []) do
     opts = build_options(opts)
 
-    conn 
-    |> Kerosene.Paginator.paginate(paginator, opts) 
+    conn
+    |> Kerosene.Paginator.paginate(paginator, opts)
     |> render_page_list(opts)
   end
 
