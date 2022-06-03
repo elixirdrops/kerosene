@@ -84,12 +84,14 @@ defmodule Kerosene do
     query
     |> exclude(:select)
     |> select([i], count(field(i, ^primary_key), :distinct))
+    |> limit(1)
   end
 
   defp total_row_count(query) do
     query
     |> subquery()
     |> select(count("*"))
+    |> limit(1)
   end
 
   def get_primary_key(query) do
