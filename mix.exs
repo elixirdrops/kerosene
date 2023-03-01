@@ -6,7 +6,7 @@ defmodule Kerosene.Mixfile do
     [
       app: :kerosene,
       version: @version,
-      elixir: "~> 1.2",
+      elixir: "~> 1.4",
       elixirc_paths: path(Mix.env()),
       package: package(),
       build_embedded: Mix.env() == :prod,
@@ -26,11 +26,8 @@ defmodule Kerosene.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: application(Mix.env())]
+    [extra_applications: [:logger]]
   end
-
-  defp application(:test), do: [:postgrex, :ecto, :logger]
-  defp application(_), do: [:logger]
 
   # Dependencies can be Hex packages:
   #
