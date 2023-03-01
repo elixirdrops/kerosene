@@ -37,7 +37,7 @@ defmodule Kerosene.JSON do
 
   def render_page_list(page_list) do
     Enum.map(page_list, fn {link_label, page, url, current} ->
-      %{label: "#{link_label}", url: url, page: page, current: current} 
+      %{label: "#{link_label}", url: url, page: page, current: current}
     end)
   end
 end
