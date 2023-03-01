@@ -17,7 +17,7 @@ end
 Add Kerosene to your `repo.ex`:
 ```elixir
 defmodule MyApp.Repo do
-  use Ecto.Repo, 
+  use Ecto.Repo,
     otp_app: :testapp,
     adapter: Ecto.Adapters.Postgres
   use Kerosene, per_page: 2
@@ -25,10 +25,10 @@ end
 ```
 
 ## Usage
-Start paginating your queries 
+Start paginating your queries
 ```elixir
 def index(conn, params) do
-  {products, kerosene} = 
+  {products, kerosene} =
   Product
   |> Product.with_lowest_price
   |> Repo.paginate(params)
@@ -37,7 +37,7 @@ def index(conn, params) do
 end
 ```
 
-Add view helpers to your view 
+Add view helpers to your view
 ```elixir
 defmodule MyApp.ProductView do
   use MyApp.Web, :view
@@ -87,7 +87,7 @@ end
 You can also send in options to paginate helper look at the docs for more details.
 
 ## Contributing
-	
+
 Please do send pull requests and bug reports, positive feedback is always welcome.
 
 

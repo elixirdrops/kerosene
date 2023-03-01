@@ -10,24 +10,26 @@ defmodule KeroseneTest do
 
   defp create_products do
     for i <- 1..15 do
-      %Product { name: "Product " <> to_string(i), price: 100.00 }
-      |> Repo.insert!
+      %Product{name: "Product " <> to_string(i), price: 100.00}
+      |> Repo.insert!()
     end
   end
 
   test "offset works correctly" do
     create_products()
     {items, _kerosene} = Product |> Repo.paginate(%{"page" => 2}, per_page: 5)
-    items = items |> Enum.sort_by(&(&1.id)) |> Enum.map(&(&1.name))
+    items = items |> Enum.sort_by(& &1.id) |> Enum.map(& &1.name)
 
     assert ["Product 6", "Product 7", "Product 8", "Product 9", "Product 10"] == items
   end
 
   test "non schema based queries" do
     create_products()
+
     query =
-      from p in "products",
-      select: %{id: p.id, name: p.name}
+      from(p in "products",
+        select: %{id: p.id, name: p.name}
+      )
 
     {_items, kerosene} = Repo.paginate(query, %{})
     assert kerosene.total_count == 15
@@ -97,7 +99,10 @@ defmodule KeroseneTest do
 
   test "max_page constraint" do
     create_products()
-    {_items, kerosene} = Product |> Repo.paginate(%{"page" => 100}, total_count: 3, per_page: 5, max_page: 10)
+
+    {_items, kerosene} =
+      Product |> Repo.paginate(%{"page" => 100}, total_count: 3, per_page: 5, max_page: 10)
+
     assert kerosene.total_count == 3
     assert kerosene.total_pages == 1
     assert kerosene.page == 1
