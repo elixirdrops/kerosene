@@ -1,6 +1,6 @@
 defmodule Kerosene.Mixfile do
   use Mix.Project
-  @version "0.9.0"
+  @version "0.10.0"
 
   def project do
     [
@@ -15,7 +15,7 @@ defmodule Kerosene.Mixfile do
       aliases: aliases(),
       name: "Kerosene",
       docs: [source_ref: "v#{@version}", main: "Kerosene"],
-      source_url: "https://github.com/elixirdrops/kerosene",
+      source_url: "https://github.com/mdlkxzmcp/kerosene",
       description: """
       Pagination for Ecto and Phoenix.
       """
@@ -61,9 +61,9 @@ defmodule Kerosene.Mixfile do
 
   defp package do
     [
-      maintainers: ["Ally Raza"],
+      maintainers: ["Ally Raza", "Max Strother"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/elixirdrops/kerosene"},
+      links: %{github: "https://github.com/mdlkxzmcp/kerosene"},
       files:
         ~w(lib test config) ++
           ~w(CHANGELOG.md LICENSE.md mix.exs README.md)

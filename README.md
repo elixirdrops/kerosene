@@ -2,6 +2,9 @@
 
 Pagination for Ecto and Phoenix.
 
+This is a fork of the original [Kerosene](https://github.com/elixirdrops/kerosene), which seems to have been abandoned :(
+
+Another good fork to consider - [Dissolver](https://github.com/MorphicPro/dissolver)... or any of the other pagination libraries that came up since Kerosene was created!
 
 ## Installation
 
@@ -10,7 +13,7 @@ The package is [available in Hex](https://hex.pm/packages/kerosene), the package
 Add kerosene to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
-  [{:kerosene, "~> 0.9.0"}]
+  [{:kerosene, "~> 0.10.0"}]
 end
 ```
 
@@ -18,7 +21,7 @@ Add Kerosene to your `repo.ex`:
 ```elixir
 defmodule MyApp.Repo do
   use Ecto.Repo,
-    otp_app: :testapp,
+    otp_app: :my_app,
     adapter: Ecto.Adapters.Postgres
   use Kerosene, per_page: 2
 end
@@ -50,7 +53,7 @@ Generate the links using the view helpers
 <%= paginate @conn, @kerosene %>
 ```
 
-Kerosene provides a [list ](https://hexdocs.pm/kerosene/Kerosene.HTML.html#__using__/1) of themes for pagination. By default it uses bootstrap. To use some other, add to config/config.exs:
+Kerosene provides a [list](https://hexdocs.pm/kerosene/Kerosene.HTML.html#__using__/1) of themes for pagination. By default it uses bootstrap. To use some other, add to config/config.exs:
 ```elixir
 config :kerosene,
 	theme: :foundation
