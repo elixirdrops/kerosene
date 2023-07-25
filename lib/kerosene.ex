@@ -1,5 +1,12 @@
 defmodule Kerosene do
-  defstruct items: [], per_page: 0, max_page: 0, page: 0, total_pages: 0, total_count: 0, params: []
+  defstruct items: [],
+            per_page: 0,
+            max_page: 0,
+            page: 0,
+            total_pages: 0,
+            total_count: 0,
+            params: []
+
   import Ecto.Query
 
   @per_page 10
@@ -13,8 +20,7 @@ defmodule Kerosene do
   defmacro __using__(opts \\ []) do
     quote do
       def paginate(query, params \\ %{}, options \\ []) do
-        Kerosene.paginate( __MODULE__, query, params,
-          Keyword.merge(unquote(opts), options))
+        Kerosene.paginate(__MODULE__, query, params, Keyword.merge(unquote(opts), options))
       end
     end
   end
@@ -31,7 +37,7 @@ defmodule Kerosene do
     page = get_page(opts, total_pages)
     offset = get_offset(total_count, page, per_page)
 
-    kerosene = %Kerosene {
+    kerosene = %Kerosene{
       per_page: per_page,
       page: page,
       total_pages: total_pages,
@@ -44,6 +50,7 @@ defmodule Kerosene do
   end
 
   defp get_items(repo, query, nil, _), do: repo.all(query)
+
   defp get_items(repo, query, limit, offset) do
     query
     |> limit(^limit)
@@ -52,10 +59,11 @@ defmodule Kerosene do
   end
 
   defp get_offset(total_pages, page, per_page) do
-    page = case page > total_pages do
-      true -> total_pages
-      _ -> page
-    end
+    page =
+      case page > total_pages do
+        true -> total_pages
+        _ -> page
+      end
 
     case page > 0 do
       true -> (page - 1) * per_page
@@ -76,11 +84,12 @@ defmodule Kerosene do
     total_pages || 0
   end
 
-  defp total_count(query = %{group_bys: [_|_]}), do: total_row_count(query)
+  defp total_count(query = %{group_bys: [_ | _]}), do: total_row_count(query)
   defp total_count(query = %{from: %{source: {_, nil}}}), do: total_row_count(query)
 
   defp total_count(query) do
     primary_key = get_primary_key(query)
+
     query
     |> exclude(:select)
     |> select([i], count(field(i, ^primary_key), :distinct))
@@ -93,10 +102,11 @@ defmodule Kerosene do
   end
 
   def get_primary_key(query) do
-    new_query = case is_map(query) do
-      true -> query.from.source |> elem(1)
-      _ -> query
-    end
+    new_query =
+      case is_map(query) do
+        true -> query.from.source |> elem(1)
+        _ -> query
+      end
 
     new_query
     |> apply(:__schema__, [:primary_key])
@@ -104,6 +114,7 @@ defmodule Kerosene do
   end
 
   def get_total_pages(_, nil), do: 1
+
   def get_total_pages(count, per_page) do
     Float.ceil(count / per_page) |> trunc()
   end
@@ -119,7 +130,7 @@ defmodule Kerosene do
     page = Map.get(params, "page", @page) |> to_integer()
     per_page = default_per_page(opts) |> to_integer()
     max_page = Keyword.get(opts, :max_page, default_max_page())
-    Keyword.merge(opts, [page: page, per_page: per_page, params: params, max_page: max_page])
+    Keyword.merge(opts, page: page, per_page: per_page, params: params, max_page: max_page)
   end
 
   defp default_per_page(opts) do
@@ -134,11 +145,13 @@ defmodule Kerosene do
   end
 
   def to_integer(i) when is_integer(i), do: abs(i)
+
   def to_integer(i) when is_binary(i) do
     case Integer.parse(i) do
       {n, _} -> n
       _ -> 0
     end
   end
+
   def to_integer(_), do: @page
 end
